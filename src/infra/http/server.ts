@@ -3,6 +3,7 @@ import { fastifyCors } from "@fastify/cors";
 import { hasZodFastifySchemaValidationErrors, serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
 import { getLinksRoute } from "./routes/get-links";
 import { createLinkRoute } from "./routes/create-link";
+import { exportUploadsRoute } from "./routes/export-links";
 
 const server = fastify();
 
@@ -23,6 +24,7 @@ server.setErrorHandler((error, request, reply) => {
 server.register(fastifyCors, { origin: "*" });
 server.register(getLinksRoute);
 server.register(createLinkRoute);
+server.register(exportUploadsRoute);
 
 server.listen({ port: 3333 }, () => {
   console.log("HTTP server running!");
