@@ -39,7 +39,7 @@ export async function getLink(
       .limit(1)
   ])
 
-  if (!link) {
+  if (!link || link.length === 0) {
     return makeLeft(new Error('Link not found'))
   }
 

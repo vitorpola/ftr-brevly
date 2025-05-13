@@ -21,10 +21,18 @@ describe('get link', () => {
     const sut = await getLink({ shortUrl: 'rocket1' })
 
     expect(isRight(sut)).toBe(true)
-    expect(unwrapEither(sut)).toEqual(expect.objectContaining({ link: { id: link.id, originalUrl: link.originalUrl } }))
+    expect(unwrapEither(sut)).toEqual({
+      link: {
+        id: link.id,
+        originalUrl: link.originalUrl,
+        shortUrl: link.shortUrl,
+        accessCount: link.accessCount,
+        createdAt: expect.any(Date)
+      }
+    })
   })
 
- 
+
   it('should not be able to get the specific link', async () => {
     await makeLink({ shortUrl: 'rocket1' })
     await makeLink({ shortUrl: 'rocket2' })
