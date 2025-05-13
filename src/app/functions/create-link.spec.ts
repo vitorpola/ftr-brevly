@@ -12,12 +12,10 @@ describe('createLink', () => {
   }
 
   beforeEach(async () => {
-    // Limpa a tabela de links antes de cada teste
     await db.delete(links)
   })
 
   afterEach(async () => {
-    // Limpa a tabela de links depois de cada teste
     await db.delete(links)
   })
 
@@ -26,22 +24,21 @@ describe('createLink', () => {
 
     expect(isRight(result)).toBe(true)
 
-    // Verifica se o link foi realmente criado no banco
     const createdLink = await db.query.links.findFirst({
-      where: eq(links.short_url, validInput.shortUrl)
+      where: eq(links.shortUrl, validInput.shortUrl)
     })
 
     expect(createdLink).toBeDefined()
-    expect(createdLink?.original_url).toBe(validInput.originalUrl)
-    expect(createdLink?.short_url).toBe(validInput.shortUrl)
+    expect(createdLink?.originalUrl).toBe(validInput.originalUrl)
+    expect(createdLink?.shortUrl).toBe(validInput.shortUrl)
   })
 
   it('should validate input using zod schema', () => {
     const invalidInputs = [
-      { key: '', url: 'https://example.com' }, // key vazia
-      { key: 'test', url: 'not-a-url' }, // URL inválida
-      { key: 'test' }, // URL faltando
-      { url: 'https://example.com' }, // key faltando
+      { key: '', url: 'https://example.com' },
+      { key: 'test', url: 'not-a-url' },
+      { key: 'test' },
+      { url: 'https://example.com' },
     ]
 
     invalidInputs.forEach(input => {
@@ -51,11 +48,9 @@ describe('createLink', () => {
   })
 
   it('should not allow duplicate keys', async () => {
-    // Primeira criação
     await createLink(validInput)
 
-    // Tenta criar novamente com a mesma key
-    const result = await createLink(validInput)
+   const result = await createLink(validInput)
     
     expect(isLeft(result)).toBe(true)
     if (isLeft(result)) {

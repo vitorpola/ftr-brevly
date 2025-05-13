@@ -1,7 +1,6 @@
 import { getLinks } from '@/app/functions/get-links'
 import { isRight, unwrapEither } from '@/infra/shared/either'
 import { makeLink } from '@/test/factories/make-link'
-import { fakerPT_BR as faker } from '@faker-js/faker'
 import dayjs from 'dayjs'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { db } from '@/infra/db'
@@ -17,13 +16,13 @@ describe('get links', () => {
   })
   
   it('should be able to get the links', async () => {
-    const link1 = await makeLink()
-    const link2 = await makeLink()
-    const link3 = await makeLink()
-    const link4 = await makeLink()
-    const link5 = await makeLink()
+    const link1 = await makeLink({ shortUrl: 'rocket1' })
+    const link2 = await makeLink({ shortUrl: 'rocket2' })
+    const link3 = await makeLink({ shortUrl: 'rocket3' })
+    const link4 = await makeLink({ shortUrl: 'rocket4' })
+    const link5 = await makeLink({ shortUrl: 'rocket5' })
 
-    const sut = await getLinks({ searchQuery: 'www' })
+    const sut = await getLinks({ sortBy: 'shortUrl', sortDirection: 'desc' })
 
     expect(isRight(sut)).toBe(true)
     expect(unwrapEither(sut).total).toEqual(5)
@@ -37,14 +36,15 @@ describe('get links', () => {
   })
 
   it('should be able to get paginated links', async () => {
-    const link1 = await makeLink()
-    const link2 = await makeLink()
-    const link3 = await makeLink()
-    const link4 = await makeLink()
-    const link5 = await makeLink()
+    const link1 = await makeLink({ shortUrl: 'rocket1' })
+    const link2 = await makeLink({ shortUrl: 'rocket2' })
+    const link3 = await makeLink({ shortUrl: 'rocket3' })
+    const link4 = await makeLink({ shortUrl: 'rocket4' })
+    const link5 = await makeLink({ shortUrl: 'rocket5' })
 
     let sut = await getLinks({
-      searchQuery: 'wwww',
+      sortBy: 'shortUrl',
+      sortDirection: 'desc',
       page: 1,
       pageSize: 3,
     })
@@ -58,7 +58,8 @@ describe('get links', () => {
     ])
 
     sut = await getLinks({
-      searchQuery: 'www',
+      sortBy: 'shortUrl',
+      sortDirection: 'desc',
       page: 2,
       pageSize: 3,
     })
@@ -93,7 +94,6 @@ describe('get links', () => {
     })
 
     let sut = await getLinks({
-      searchQuery: 'www',
       sortBy: 'createdAt',
       sortDirection: 'desc',
     })
@@ -109,7 +109,6 @@ describe('get links', () => {
     ])
 
     sut = await getLinks({
-      searchQuery: 'www',
       sortBy: 'createdAt',
       sortDirection: 'asc',
     })

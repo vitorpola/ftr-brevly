@@ -11,8 +11,8 @@ export async function makeLink(
   const result = await db
     .insert(schema.links)
     .values({
-      short_url: shortUrl,
-      original_url: `http://www.example-${shortUrl}.com`,
+      originalUrl: `http://www.example-${shortUrl}`,
+      shortUrl: shortUrl,
       ...overrides,
     })
     .returning()
