@@ -7,7 +7,7 @@ export const createLinkRoute: FastifyPluginAsyncZod = async server => {
   server.post('/links', {
     schema: {
       body: createLinkInput,
-      summary: 'Create a link',
+      summary: 'Criar um link encurtado',
       tags: ['links']
     }
   }, async (request, reply) => {

@@ -5,10 +5,10 @@ import { z } from 'zod'
 
 export const exportUploadsRoute: FastifyPluginAsyncZod = async server => {
   server.post(
-    '/links/exports',
+    '/links/export',
     {
       schema: {
-        summary: 'Export links',
+        summary: 'Exportar links encurtados em csv',
         tags: ['links'],
         response: {
           200: z.object({

@@ -40,7 +40,7 @@ export async function getLink(
   ])
 
   if (!link || link.length === 0) {
-    return makeLeft(new Error('Link not found'))
+    return makeLeft(new Error(`Link "${shortUrl}" not found`))
   }
 
   return makeRight({ link: link[0] })
