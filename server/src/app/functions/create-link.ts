@@ -15,14 +15,14 @@ export const createLinkInput = z.object({
 
 type CreateLinkInput = z.infer<typeof createLinkInput>
 
-export async function createLink(input: CreateLinkInput): Promise<Either<Error, {}>> {
+export async function createLink(input: CreateLinkInput): Promise<Either<Error, string>> {
   try {
-    await db.insert(links).values({ 
+    const [link] = await db.insert(links).values({ 
       shortUrl: input.shortUrl, 
       originalUrl: input.originalUrl 
-    })
+    }).returning({ id: links.id })
 
-    return makeRight({ })
+    return makeRight(link.id)
   } catch (error) {
     if (error instanceof Error && error.message.includes('duplicate key')) {
       return makeLeft(new Error(`Essa URL encurtada "${input.shortUrl}" já existe.`))

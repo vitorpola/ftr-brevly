@@ -1,7 +1,6 @@
 import { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import { createLink, createLinkInput } from "@/app/functions/create-link";
 import { isLeft, unwrapEither } from "@/infra/shared/either";
-import { z } from "zod";
 
 export const createLinkRoute: FastifyPluginAsyncZod = async server => {
   server.post('/links', {
@@ -19,6 +18,6 @@ export const createLinkRoute: FastifyPluginAsyncZod = async server => {
       return reply.status(400).send({ message: error.message })
     }
 
-    return reply.status(201).send()
+    return reply.status(201).send({ id: result.right })
   })
 }
