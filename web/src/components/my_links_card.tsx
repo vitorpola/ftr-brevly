@@ -1,6 +1,7 @@
 import { Copy, Download, Link, Trash } from "@phosphor-icons/react";
 import { useContextSelector } from "use-context-selector";
 import { LinksContext } from "../contexts/LinksContext";
+import { env } from "../env";
 
 export function MyLinksCard() {
 
@@ -27,7 +28,7 @@ export function MyLinksCard() {
       </div>
     )
   }
-  
+
   return (
     <div className="bg-white rounded-lg shadow p-6 flex-1 w-full">
       <div className="flex items-center justify-between mb-4">
@@ -43,11 +44,12 @@ export function MyLinksCard() {
             <div>
               <a
                 href={link.shortUrl}
+                onClick={() => accessLink(link)}
                 className="text-blue-base hover:underline block"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                {link.shortUrl}
+                {env.VITE_FRONTEND_URL}/{link.shortUrl}
               </a>
               <p className="text-sm text-gray-500 truncate w-56">{link.originalUrl}</p>
               <p className="text-sm text-gray-700 mt-1">{link.accessCount} acessos</p>
@@ -72,7 +74,6 @@ export function MyLinksCard() {
             </div>
           </div>
         ))}
-      
       </div>
     </div>
   )

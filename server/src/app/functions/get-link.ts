@@ -39,6 +39,8 @@ export async function getLink(
       .limit(1),
   ])
 
+  console.log('link', link)
+
   if (!link || link.length === 0) {
     return makeLeft(new Error(`Link "${shortUrl}" not found`))
   }

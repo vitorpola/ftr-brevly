@@ -30,7 +30,7 @@ export const getLinkRoute: FastifyPluginAsync = async server => {
       const { shortUrl } = request.params as z.infer<typeof getLinkInput>
 
       const result = await getLink({ shortUrl })
-      console.log('result', result)
+
       if (isLeft(result)) {
         const error = unwrapEither(result)
         return reply.status(404).send({ message: error.message })
