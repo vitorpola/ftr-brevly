@@ -1,5 +1,5 @@
-import { pgTable, text, uuid, timestamp, integer } from "drizzle-orm/pg-core";
-import { sql } from "drizzle-orm";
+import { sql } from 'drizzle-orm'
+import { integer, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
 
 export const links = pgTable('links', {
   id: uuid('id').primaryKey().default(sql`gen_random_uuid()`),

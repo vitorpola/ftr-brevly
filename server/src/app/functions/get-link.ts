@@ -36,7 +36,7 @@ export async function getLink(
       })
       .from(schema.links)
       .where(eq(schema.links.shortUrl, shortUrl))
-      .limit(1)
+      .limit(1),
   ])
 
   if (!link || link.length === 0) {

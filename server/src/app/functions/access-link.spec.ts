@@ -1,9 +1,9 @@
 import { accessLink } from '@/app/functions/access-link'
+import { db } from '@/infra/db'
+import { links } from '@/infra/db/schemas/links'
 import { isLeft, isRight, unwrapEither } from '@/infra/shared/either'
 import { makeLink } from '@/test/factories/make-link'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import { db } from '@/infra/db'
-import { links } from '@/infra/db/schemas/links'
 
 describe('access link', () => {
   beforeEach(async () => {
@@ -13,7 +13,7 @@ describe('access link', () => {
   afterEach(async () => {
     await db.delete(links)
   })
-  
+
   it('should be able to access the specific link', async () => {
     const link = await makeLink({ shortUrl: 'rocket1' })
     await makeLink({ shortUrl: 'rocket2' })
@@ -23,7 +23,6 @@ describe('access link', () => {
     expect(isRight(sut)).toBe(true)
     expect(unwrapEither(sut)).toEqual({})
   })
-
 
   it('should not be able to access the specific link', async () => {
     await makeLink({ shortUrl: 'rocket1' })

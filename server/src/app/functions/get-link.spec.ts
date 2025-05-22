@@ -1,9 +1,9 @@
 import { getLink } from '@/app/functions/get-link'
+import { db } from '@/infra/db'
+import { links } from '@/infra/db/schemas/links'
 import { isLeft, isRight, unwrapEither } from '@/infra/shared/either'
 import { makeLink } from '@/test/factories/make-link'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import { db } from '@/infra/db'
-import { links } from '@/infra/db/schemas/links'
 
 describe('get link', () => {
   beforeEach(async () => {
@@ -13,7 +13,7 @@ describe('get link', () => {
   afterEach(async () => {
     await db.delete(links)
   })
-  
+
   it('should be able to get the specific link', async () => {
     const link = await makeLink({ shortUrl: 'rocket1' })
     await makeLink({ shortUrl: 'rocket2' })
@@ -27,11 +27,10 @@ describe('get link', () => {
         originalUrl: link.originalUrl,
         shortUrl: link.shortUrl,
         accessCount: link.accessCount,
-        createdAt: expect.any(Date)
-      }
+        createdAt: expect.any(Date),
+      },
     })
   })
-
 
   it('should not be able to get the specific link', async () => {
     await makeLink({ shortUrl: 'rocket1' })

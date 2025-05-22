@@ -1,14 +1,14 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import { createLink, createLinkInput } from './create-link'
 import { db } from '@/infra/db'
 import { links } from '@/infra/db/schemas/links'
+import { isLeft, isRight, unwrapEither } from '@/infra/shared/either'
 import { eq } from 'drizzle-orm'
-import { isRight, isLeft, unwrapEither } from '@/infra/shared/either'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { createLink, createLinkInput } from './create-link'
 
 describe('createLink', () => {
   const validInput = {
     shortUrl: 'test-short-url',
-    originalUrl: 'https://example.com'
+    originalUrl: 'https://example.com',
   }
 
   beforeEach(async () => {
@@ -25,7 +25,7 @@ describe('createLink', () => {
     expect(isRight(result)).toBe(true)
 
     const createdLink = await db.query.links.findFirst({
-      where: eq(links.shortUrl, validInput.shortUrl)
+      where: eq(links.shortUrl, validInput.shortUrl),
     })
 
     expect(createdLink).toBeDefined()
@@ -41,17 +41,17 @@ describe('createLink', () => {
       { url: 'https://example.com' },
     ]
 
-    invalidInputs.forEach(input => {
+    for (const input of invalidInputs) {
       const result = createLinkInput.safeParse(input)
       expect(result.success).toBe(false)
-    })
+    }
   })
 
   it('should not allow duplicate keys', async () => {
     await createLink(validInput)
 
-   const result = await createLink(validInput)
-    
+    const result = await createLink(validInput)
+
     expect(isLeft(result)).toBe(true)
     if (isLeft(result)) {
       expect(unwrapEither(result)).toBeInstanceOf(Error)

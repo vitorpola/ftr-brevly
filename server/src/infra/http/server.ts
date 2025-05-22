@@ -1,17 +1,21 @@
-import { fastify } from "fastify";
-import { fastifyCors } from "@fastify/cors";
-import { hasZodFastifySchemaValidationErrors, serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
-import { getLinksRoute } from "./routes/get-links";
-import { createLinkRoute } from "./routes/create-link";
-import { exportUploadsRoute } from "./routes/export-links";
-import { deleteLinkRoute } from "./routes/delete-link";
-import { accessLinkRoute } from "./routes/access-link";
-import { getLinkRoute } from "./routes/get-link";
-import { transformSwaggerSchema } from "./transform-swagger-schema";
-import { fastifySwagger } from "@fastify/swagger";
-import { fastifySwaggerUi } from "@fastify/swagger-ui";
+import { fastifyCors } from '@fastify/cors'
+import { fastifySwagger } from '@fastify/swagger'
+import { fastifySwaggerUi } from '@fastify/swagger-ui'
+import { fastify } from 'fastify'
+import {
+  hasZodFastifySchemaValidationErrors,
+  serializerCompiler,
+  validatorCompiler,
+} from 'fastify-type-provider-zod'
+import { accessLinkRoute } from './routes/access-link'
+import { createLinkRoute } from './routes/create-link'
+import { deleteLinkRoute } from './routes/delete-link'
+import { exportUploadsRoute } from './routes/export-links'
+import { getLinkRoute } from './routes/get-link'
+import { getLinksRoute } from './routes/get-links'
+import { transformSwaggerSchema } from './transform-swagger-schema'
 
-const server = fastify();
+const server = fastify()
 
 server.setValidatorCompiler(validatorCompiler)
 server.setSerializerCompiler(serializerCompiler)
@@ -27,7 +31,10 @@ server.setErrorHandler((error, request, reply) => {
   return reply.status(500).send({ message: 'Internal server error' })
 })
 
-server.register(fastifyCors, { origin: "*", methods: ["GET", "POST", "PUT", "DELETE"] });
+server.register(fastifyCors, {
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+})
 server.register(fastifySwagger, {
   openapi: {
     info: {
@@ -42,13 +49,13 @@ server.register(fastifySwaggerUi, {
   routePrefix: '/docs',
 })
 
-server.register(getLinksRoute);
-server.register(getLinkRoute);
-server.register(createLinkRoute);
-server.register(exportUploadsRoute);
-server.register(deleteLinkRoute);
-server.register(accessLinkRoute);
+server.register(getLinksRoute)
+server.register(getLinkRoute)
+server.register(createLinkRoute)
+server.register(exportUploadsRoute)
+server.register(deleteLinkRoute)
+server.register(accessLinkRoute)
 
 server.listen({ port: 3333 }, () => {
-  console.log("HTTP server running!");
-});
+  console.log('HTTP server running!')
+})

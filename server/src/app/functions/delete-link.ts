@@ -25,9 +25,7 @@ export async function deleteLink(
     return makeLeft(new Error(`Link "${shortUrl}" not found`))
   }
 
-  await db
-    .delete(schema.links)
-    .where(eq(schema.links.shortUrl, shortUrl))
+  await db.delete(schema.links).where(eq(schema.links.shortUrl, shortUrl))
 
   return makeRight(null)
 }

@@ -19,7 +19,7 @@ export const exportUploadsRoute: FastifyPluginAsyncZod = async server => {
     },
     async (request, reply) => {
       const result = await exportLinks()
-      
+
       const { reportUrl } = unwrapEither(result)
 
       return reply.status(200).send({ reportUrl })

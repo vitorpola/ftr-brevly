@@ -1,9 +1,9 @@
+import { deleteLink } from '@/app/functions/delete-link'
+import { db } from '@/infra/db'
+import { links } from '@/infra/db/schemas/links'
 import { isLeft, isRight, unwrapEither } from '@/infra/shared/either'
 import { makeLink } from '@/test/factories/make-link'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import { db } from '@/infra/db'
-import { links } from '@/infra/db/schemas/links'
-import { deleteLink } from '@/app/functions/delete-link'
 
 describe('delete link', () => {
   beforeEach(async () => {
@@ -13,7 +13,7 @@ describe('delete link', () => {
   afterEach(async () => {
     await db.delete(links)
   })
-  
+
   it('should be able to delete the specific link', async () => {
     const link = await makeLink({ shortUrl: 'rocket1' })
     await makeLink({ shortUrl: 'rocket2' })
