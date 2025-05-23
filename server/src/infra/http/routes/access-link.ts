@@ -28,7 +28,7 @@ export const accessLinkRoute: FastifyPluginAsync = async server => {
         return reply.status(404).send({ message: error.message })
       }
 
-      return reply.status(204)
+      return reply.status(204).send()
     }
   )
 }

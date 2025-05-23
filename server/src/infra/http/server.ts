@@ -1,3 +1,4 @@
+import { env } from '@/env'
 import { fastifyCors } from '@fastify/cors'
 import { fastifySwagger } from '@fastify/swagger'
 import { fastifySwaggerUi } from '@fastify/swagger-ui'
@@ -15,7 +16,9 @@ import { getLinkRoute } from './routes/get-link'
 import { getLinksRoute } from './routes/get-links'
 import { transformSwaggerSchema } from './transform-swagger-schema'
 
-const server = fastify()
+const server = fastify({
+  logger: env.NODE_ENV !== 'production',
+})
 
 server.setValidatorCompiler(validatorCompiler)
 server.setSerializerCompiler(serializerCompiler)

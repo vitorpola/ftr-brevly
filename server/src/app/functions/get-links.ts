@@ -1,6 +1,7 @@
 import { db } from '@/infra/db'
 import { schema } from '@/infra/db/schemas'
 import { type Either, makeRight } from '@/infra/shared/either'
+import { desc } from 'drizzle-orm'
 
 type GetLinksOutput = {
   links: {
@@ -22,6 +23,7 @@ export async function getLinks(): Promise<Either<never, GetLinksOutput>> {
       createdAt: schema.links.createdAt,
     })
     .from(schema.links)
+    .orderBy(desc(schema.links.createdAt))
 
   return makeRight({ links })
 }
