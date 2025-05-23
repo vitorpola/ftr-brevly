@@ -1,18 +1,16 @@
 import brevlyLogo from "../assets/logotipo.svg";
 import { LinkForm } from "../components/link_form";
 import { MyLinksCard } from "../components/my_links_card";
-import { Toast } from "../components/toast";
 
 export function Home() {
   return (
     <main className="w-full">
-      <div className="mb-6 text-center lg:text-left">
-        <img src={brevlyLogo} alt="Brevly" className="flex w-24" />
+      <div className="px-4 pb-4 pt-8 text-center lg:text-left max-w-5xl mx-auto">
+        <img src={brevlyLogo} alt="Brevly" className="w-24 inline" />
       </div>
-      <div className="">
+      <div className="p-3 flex items-start flex-col gap-3 lg:flex-row lg:gap-4 max-w-5xl mx-auto">
         <LinkForm />
         <MyLinksCard />
-        <Toast />
       </div>
     </main>
   )

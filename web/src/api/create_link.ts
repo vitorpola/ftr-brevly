@@ -1,13 +1,18 @@
+import type { CreateLinkInput } from '../contexts/LinksContext'
 import { api } from '../lib/axios'
 
 export async function createLinkApi(
-  shortUrl: string,
-  originalUrl: string
+  data: CreateLinkInput
 ): Promise<string | null> {
-  const response = await api.post('links', { shortUrl, originalUrl })
-  if (response.status !== 200) {
+  const body = {
+    shortUrl: data.shortUrl,
+    originalUrl: data.originalUrl,
+  }
+  const response = await api.post('links', body)
+
+  if (response.status !== 201) {
     return null
   }
 
-  return response.data.link.id
+  return response.data.id
 }

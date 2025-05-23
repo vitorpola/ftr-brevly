@@ -12,20 +12,24 @@ export function Redirect() {
   useEffect(() => {
     async function handleRedirect() {
       if (!shortUrl) return
-      const link = await fetchLink(shortUrl)
-      if (!link) return
-      await accessLink(link)
-      // if (link?.originalUrl) {
-      //   window.location.href = link.originalUrl
-      // }
+      try {
+        const link = await fetchLink(shortUrl)
+        if (!link) return
+        await accessLink(link)
+        if (link?.originalUrl) {
+          window.location.href = link.originalUrl
+        }
+      } catch (error) {
+        window.location.href = '/url/not-found'
+      }
     }
     handleRedirect()
   }, [shortUrl, fetchLink, accessLink])
 
   return (
-    <div className="flex items-center justify-center h-screen">
-      <div className="bg-white rounded-lg p-10 w-full text-center">
-        <img src={logo} alt="Brevly" className="center" />
+    <div className="flex items-center justify-center h-screen p-4">
+      <div className="bg-white rounded-lg p-10 text-center lg:w-1/2 w-full">
+        <img src={logo} alt="Brevly" className="inline" />
         <p className="text-lg font-semibold mb-2">Redirecionando...</p>
         <p className="text-sm ">O link será aberto automaticamente em alguns instantes.</p>
       </div>

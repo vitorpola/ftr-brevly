@@ -22,4 +22,9 @@
   --leading-md: 18px;
   --leading-sm: 16px;
   --leading-xs: 14px;
+  --animate-slide: slide 1s ease-in-out infinite;
+  @keyframes slide {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
 }
