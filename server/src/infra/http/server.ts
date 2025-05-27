@@ -25,13 +25,16 @@ server.setSerializerCompiler(serializerCompiler)
 
 server.setErrorHandler((error, request, reply) => {
   if (hasZodFastifySchemaValidationErrors(error)) {
+    const messages = error.validation.map(issue => {
+      return issue.message
+    })
     return reply.status(400).send({
-      message: 'Validation error',
+      message: messages.join(', '),
       issues: error.validation,
     })
   }
 
-  return reply.status(500).send({ message: 'Internal server error' })
+  return reply.status(500).send({ message: 'Erro interno no servidor' })
 })
 
 server.register(fastifyCors, {
