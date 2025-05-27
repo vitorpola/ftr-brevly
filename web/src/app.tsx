@@ -17,6 +17,7 @@ if (rootElement) {
           <Route path="/" element={<Home />} />
           <Route path="/url/not-found" element={<NotFound />} />
           <Route path="/:shortUrl" element={<Redirect />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </LinksProvider>

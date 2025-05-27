@@ -2,7 +2,6 @@ import { Copy, DownloadSimple, Link, SpinnerGap, Trash } from "@phosphor-icons/r
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useContextSelector } from "use-context-selector";
-import { set } from "zod/v4";
 import { downloadCSV } from "../api/download_csv";
 import { LinksContext } from "../contexts/LinksContext";
 import { env } from "../env";
@@ -23,7 +22,7 @@ export function MyLinksCard() {
   }
 
   const handleCopyLink = (shortUrl: string) => {
-    navigator.clipboard.writeText(shortUrl)
+    navigator.clipboard.writeText(`${env.VITE_FRONTEND_URL}/${shortUrl}`)
     toast.info('Link copiado com sucesso!', {
       description: `O link ${shortUrl} foi copiado para a área de transferência.`,
     })
@@ -92,7 +91,7 @@ export function MyLinksCard() {
           Baixar CSV
         </button>
       </div>
-      <div className="overflow-y-scroll scroll-smooth max-h-[calc(100vh-300px)]">
+      <div className="overflow-y-scroll scroll-smooth max-h-[calc(100vh-200px)]">
         {loading && (
           <div className="text-center text-gray-500 pt-4 pb-6">
             <SpinnerGap size={32} className="text-gray-400 inline mb-3 animate-spin"/>
