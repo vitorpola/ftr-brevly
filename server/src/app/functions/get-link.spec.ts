@@ -1,44 +1,30 @@
 import { getLink } from '@/app/functions/get-link'
-import { db } from '@/infra/db'
-import { links } from '@/infra/db/schemas/links'
 import { isLeft, isRight, unwrapEither } from '@/infra/shared/either'
 import { makeLink } from '@/test/factories/make-link'
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
 describe('get link', () => {
-  beforeEach(async () => {
-    await db.delete(links)
-  })
-
-  afterEach(async () => {
-    await db.delete(links)
-  })
-
   it('should be able to get the specific link', async () => {
-    const link = await makeLink({ shortUrl: 'rocket1' })
-    await makeLink({ shortUrl: 'rocket2' })
-
-    const sut = await getLink({ shortUrl: 'rocket1' })
+    const createdLinks = await Promise.all([makeLink(), makeLink()])
+    const sut = await getLink({ shortUrl: createdLinks[0].shortUrl })
 
     expect(isRight(sut)).toBe(true)
     expect(unwrapEither(sut)).toEqual({
       link: {
-        id: link.id,
-        originalUrl: link.originalUrl,
-        shortUrl: link.shortUrl,
-        accessCount: link.accessCount,
+        id: createdLinks[0].id,
+        originalUrl: createdLinks[0].originalUrl,
+        shortUrl: createdLinks[0].shortUrl,
+        accessCount: createdLinks[0].accessCount,
         createdAt: expect.any(Date),
       },
     })
   })
 
   it('should not be able to get the specific link', async () => {
-    await makeLink({ shortUrl: 'rocket1' })
-    await makeLink({ shortUrl: 'rocket2' })
-
-    const sut = await getLink({ shortUrl: 'rocket3' })
+    await Promise.all([makeLink(), makeLink()])
+    const sut = await getLink({ shortUrl: 'other' })
 
     expect(isLeft(sut)).toBe(true)
-    expect(unwrapEither(sut)).toEqual(new Error('Link "rocket3" not found'))
+    expect(unwrapEither(sut)).toEqual(new Error('Link "other" not found'))
   })
 })

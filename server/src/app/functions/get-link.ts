@@ -25,21 +25,17 @@ export async function getLink(
 ): Promise<Either<Error, GetLinkOutput>> {
   const { shortUrl } = getLinkInput.parse(input)
 
-  const [link] = await Promise.all([
-    db
-      .select({
-        id: schema.links.id,
-        shortUrl: schema.links.shortUrl,
-        originalUrl: schema.links.originalUrl,
-        accessCount: schema.links.accessCount,
-        createdAt: schema.links.createdAt,
-      })
-      .from(schema.links)
-      .where(eq(schema.links.shortUrl, shortUrl))
-      .limit(1),
-  ])
-
-  console.log('link', link)
+  const link = await db
+    .select({
+      id: schema.links.id,
+      shortUrl: schema.links.shortUrl,
+      originalUrl: schema.links.originalUrl,
+      accessCount: schema.links.accessCount,
+      createdAt: schema.links.createdAt,
+    })
+    .from(schema.links)
+    .where(eq(schema.links.shortUrl, shortUrl))
+    .limit(1)
 
   if (!link || link.length === 0) {
     return makeLeft(new Error(`Link "${shortUrl}" not found`))

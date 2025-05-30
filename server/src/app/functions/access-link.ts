@@ -16,11 +16,11 @@ type AccessLinkInput = z.input<typeof accessLinkInput>
 
 export async function accessLink(
   input: AccessLinkInput
-): Promise<Either<Error, void>> {
+): Promise<Either<Error, boolean>> {
   const { shortUrl } = accessLinkInput.parse(input)
 
   const existingLink = await db
-    .select({})
+    .select({ id: schema.links.id })
     .from(schema.links)
     .where(eq(schema.links.shortUrl, shortUrl))
     .limit(1)
@@ -31,10 +31,8 @@ export async function accessLink(
 
   await db
     .update(schema.links)
-    .set({
-      accessCount: increment(schema.links.accessCount),
-    })
+    .set({ accessCount: increment(schema.links.accessCount) })
     .where(eq(schema.links.shortUrl, shortUrl))
 
-  return makeRight(undefined)
+  return makeRight(true)
 }

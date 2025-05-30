@@ -14,7 +14,7 @@ type GetLinksOutput = {
 }
 
 export async function getLinks(): Promise<Either<never, GetLinksOutput>> {
-  const links = await db
+  const [links] = await Promise.all([db
     .select({
       id: schema.links.id,
       shortUrl: schema.links.shortUrl,
@@ -24,6 +24,7 @@ export async function getLinks(): Promise<Either<never, GetLinksOutput>> {
     })
     .from(schema.links)
     .orderBy(desc(schema.links.createdAt))
+  ])
 
   return makeRight({ links })
 }
