@@ -75,7 +75,7 @@ export function MyLinksCard() {
       {loading && (<div className="absolute top-0 left-0 w-full h-1 " >
         <div className="h-full w-full bg-blue-base animate-slide" />
       </div>
-    )}
+      )}
       <div className="flex items-center justify-between mb-4 border-b border-gray-200 pb-4">
         <h2 className="text-lg font-bold text-gray-600">Meus links</h2>
 
@@ -86,42 +86,42 @@ export function MyLinksCard() {
           title="Baixar CSV"
           className="flex items-center gap-2 text-sm font-semibold p-2 bg-gray-200 hover:outline-2 hover:outline-blue-base rounded disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:outline-none"
         >
-          {downloading && (<SpinnerGap size={16} className="animate-spin"/> )}
-          {!downloading && (<DownloadSimple size={16} /> )}
+          {downloading && (<SpinnerGap size={16} className="animate-spin" />)}
+          {!downloading && (<DownloadSimple size={16} />)}
           Baixar CSV
         </button>
       </div>
       <div className="overflow-y-scroll scroll-smooth max-h-[calc(100vh-200px)]">
         {loading && (
           <div className="text-center text-gray-500 pt-4 pb-6">
-            <SpinnerGap size={32} className="text-gray-400 inline mb-3 animate-spin"/>
+            <SpinnerGap size={32} className="text-gray-400 inline mb-3 animate-spin" />
             <p className="text-xs text-gray-500">CARREGANDO LINKS...</p>
           </div>
         )}
         {!loading && links.length === 0 && (
           <div className="text-center text-gray-500 pt-4 pb-6">
-            <Link size={32} className="text-gray-400 inline mb-3"/>
+            <Link size={32} className="text-gray-400 inline mb-3" />
             <p className="text-xs text-gray-500">AINDA NÃO EXISTEM LINKS CADASTRADOS</p>
           </div>
         )}
 
         {!loading && links.map((link) => (
           <div key={link.shortUrl} className="flex justify-between items-center border-b border-gray-200 pb-4 mb-4 last:mb-0 last:border-none">
-            <div className="grow">
+            <div className="flex-auto">
               <a
                 href={link.shortUrl}
-                className="text-md font-semibold text-blue-base hover:underline block"
+                className="text-md font-semibold text-blue-base hover:underline block truncate w-45 lg:w-65"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 {env.VITE_FRONTEND_URL}/{link.shortUrl}
               </a>
-              <p className="text-sm text-gray-500 truncate lg:w-72 w-50">{link.originalUrl}</p>
+              <p className="text-sm text-gray-500 truncate w-45 lg:w-65">{link.originalUrl}</p>
             </div>
-            <div className="grow-0  bg-grey-800 text-sm text-gray-500 px-3">
+            <div className="bg-grey-800 text-sm text-gray-500 px-3 text-center">
               {link.accessCount} acessos
             </div>
-            <div className="grow-0 space-x-1">
+            <div className="space-x-1 w-18">
               <button
                 type="button"
                 onClick={() => handleCopyLink(link.shortUrl)}
