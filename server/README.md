@@ -1,6 +1,4 @@
-FTR - Desafio fase 1
-
-Checklist de backend
+# ftr-brevly server
 
 - [x]  Deve ser possível criar um link
     - [x]  Não deve ser possível criar um link com URL encurtada mal formatada
